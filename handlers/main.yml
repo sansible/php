@@ -1,0 +1,26 @@
+---
+# handlers file for php
+
+- name: restart php-fpm
+  service:
+    name: php5-fpm
+    state: restarted
+  sudo: yes
+
+- name: stop php-fpm
+  service:
+    name: php5-fpm
+    state: stopped
+  sudo: yes
+
+- name: start php-fpm
+  service:
+    name: php5-fpm
+    state: started
+  sudo: yes
+
+- name: reload php-fpm
+  service:
+    name: php5-fpm
+    state: reloaded
+  sudo: yes

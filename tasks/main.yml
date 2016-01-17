@@ -1,0 +1,6 @@
+---
+
+- name: Installs PHP and its dependencies
+  include: build.yml
+  tags:
+    - build

@@ -1,0 +1,79 @@
+---
+
+- name: Ensure FPM user
+  become: yes
+  user:
+    name: "{{ php.fpm.user }}"
+
+- name: Ensure PHP FPM root folders exist
+  become: yes
+  become_user: "{{ php.fpm.user }}"
+  file:
+    name: "/home/{{ php.fpm.user }}/{{ item }}"
+    state: directory
+  with_items:
+    - etc
+    - log
+    - tmp
+    - run
+    - bin
+
+- name: Create PHP ini for FPM
+  become: yes
+  become_user: "{{ php.fpm.user }}"
+  template:
+    src: php.ini.j2
+    dest: "/home/{{ php.fpm.user }}/etc/php.ini"
+
+- name: Create PHP FPM Config
+  become: yes
+  become_user: "{{ php.fpm.user }}"
+  template:
+    src: php5-fpm.conf.j2
+    dest: "/home/{{ php.fpm.user }}/etc/php-fpm.conf"
+
+- name: Create FPM checkconf executable
+  become: yes
+  become_user: "{{ php.fpm.user }}"
+  template:
+    src: php5-fpm-checkconfig.j2
+    dest: "/home/{{ php.fpm.user }}/bin/php5-fpm-checkconf"
+    mode: 0755
+
+- name: Create init.d script
+  become: yes
+  template:
+    src: initd.j2
+    dest: "/etc/init.d/{{ php.fpm.user }}"
+    mode: 0755
+
+- name: Create init.d script
+  become: yes
+  template:
+    src: init.j2
+    dest: "/etc/init/{{ php.fpm.user }}"
+    mode: 0755
+
+- name: Stop default FPM service
+  become: yes
+  service:
+    name: php5-fpm
+    state: stopped
+  ignore_errors: yes
+
+- name: Remove default FPM service
+  become: yes
+  file:
+    name: "{{ item }}"
+    state: absent
+  register: php_fpm_remove
+  with_items:
+    - /etc/init.d/php5-fpm
+    - /etc/init/php5-fpm.conf
+
+- name: Create fpm status nxinx include
+  become: yes
+  template:
+    src: fpm_status.j2
+    dest: "/etc/nginx/includes/{{ php.fpm.user }}_fpm_status"
+  when: php.fpm.nginx_status

@@ -1,0 +1,13 @@
+##
+# {{ ansible_managed }}
+#
+
+location = {{ php.fpm.status_path }} {
+	include includes/{{ php.fpm.user }}_fastcgi_params;
+
+	access_log off;
+	allow 127.0.0.1;
+	deny all;
+
+	fastcgi_pass unix:/home/{{ php.fpm.user }}/run/php5-fpm.sock;
+}

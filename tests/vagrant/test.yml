@@ -1,0 +1,43 @@
+---
+
+- name: Test PHP role
+  hosts: all
+
+  roles:
+    - name: ansible-city.php
+
+  post_tasks:
+    - name: PHP should be installed
+      command: php --version
+      tags:
+        - assert
+
+- name: Test FPM
+  hosts: all
+
+  roles:
+    - name: ansible-city.users_and_groups
+      users_and_groups:
+        users:
+          - name: php_tester
+
+    - name: ansible-city.php
+      php:
+        fpm:
+          user: php_tester
+          group: php_tester
+          chroot: /home/php_tester
+          nginx_status: ~ # disable nginx status page
+
+  post_tasks:
+    - name: Start fpm process
+      become: yes
+      shell: service php_tester start
+      tags:
+        - assert
+
+    - name: Check fpm process is running
+      become: yes
+      shell: service php_tester status | grep "is running"
+      tags:
+        - assert

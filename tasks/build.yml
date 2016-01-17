@@ -1,0 +1,37 @@
+---
+
+- name: Instal PHP
+  become: yes
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+  tags:
+    - provision
+  with_items:
+    - php5
+    - php5-fpm
+    - php5-cli
+
+- name: Install base PHP modules
+  become: yes
+  apt:
+    name: "{{ item }}"
+  tags:
+    - provision
+  with_items: php.modules
+
+- name: Install extra PHP packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+  tags:
+    - provision
+  with_items: php.extras
+
+- name: Install custom FPM service
+  include: fpm.yml
+  when: php.fpm.user is defined
+
+- name: Install custom FPM service
+  include: pecl.yml
+  when: php.pecl

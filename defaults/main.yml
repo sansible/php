@@ -1,0 +1,31 @@
+---
+
+php:
+  # List of extra PHP packages to install
+  extras: []
+  pecl: []
+  modules:
+    - php5-curl
+    - php5-intl
+    - php5-mcrypt
+    - php5-mysql
+    - php5-pgsql
+    - php5-sqlite
+  paths:
+    etc: /etc/php5
+
+  # In order to configure custom FPM process, please check README
+  fpm:
+    port: 9000
+    max_children: 100
+    start_servers: 2
+    min_spare_servers: 2
+    max_spare_servers: 10
+    max_requests: 4000
+    status_path: /status
+    # generates nginx include. Set to `no` if you're not using nginx.
+    nginx_status: yes
+    # THIS NEEDS TO BE DEFINED IN YOUR DEPENDENCY
+    # user: ...
+    # group: ...
+    # chroot: ...

@@ -1,0 +1,31 @@
+##
+# {{ ansible_managed }}
+#
+
+[global]
+pid = /home/{{ php.fpm.user }}/run/php5-fpm.pid
+error_log = /home/{{ php.fpm.user }}/log/php5-fpm.log
+log_level = notice
+
+[{{ php.fpm.user }}]
+user = {{ php.fpm.user }}
+group = {{ php.fpm.group }}
+listen = /home/{{ php.fpm.user }}/run/php5-fpm.sock
+listen.mode = 0666
+listen.allowed_clients = 127.0.0.1
+chroot = {{ php.fpm.chroot }}/
+
+pm = dynamic
+pm.max_children = {{ php.fpm.max_children }}
+pm.start_servers = {{ php.fpm.start_servers }}
+pm.min_spare_servers = {{ php.fpm.min_spare_servers }}
+pm.max_spare_servers = {{ php.fpm.max_spare_servers }}
+pm.max_requests = {{ php.fpm.max_requests }}
+pm.status_path = {{ php.fpm.status_path }}
+
+catch_workers_output = no
+
+env[HOME] = /home/{{ php.fpm.user }}/
+env[TMP] = /home/{{ php.fpm.user }}/tmp
+env[TMPDIR] = /home/{{ php.fpm.user }}/tmp
+env[TEMP] = /home/{{ php.fpm.user }}/tmp
