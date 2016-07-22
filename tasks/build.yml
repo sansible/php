@@ -1,6 +1,12 @@
 ---
 
-- name: Instal PHP
+- name: Add PHP7 repo
+  become: yes
+  apt_repository:
+    repo: ppa:ondrej/php
+  when: php.version == "php7.0"
+
+- name: Install PHP
   become: yes
   apt:
     update_cache: yes
@@ -8,9 +14,10 @@
   tags:
     - provision
   with_items:
-    - php5
-    - php5-fpm
-    - php5-cli
+    - "{{ php.version }}"
+    - "{{ php.version }}-common"
+    - "{{ php.version }}-fpm"
+    - "{{ php.version }}-cli"
 
 - name: Install base PHP modules
   become: yes
@@ -32,6 +39,6 @@
   include: fpm.yml
   when: php.fpm.user is defined
 
-- name: Install custom FPM service
+- name: Install PECL modules
   include: pecl.yml
   when: php.pecl
