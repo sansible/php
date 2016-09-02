@@ -29,15 +29,15 @@
   become: yes
   become_user: "{{ php.fpm.user }}"
   template:
-    src: php5-fpm.conf.j2
+    src: php-fpm.conf.j2
     dest: "/home/{{ php.fpm.user }}/etc/php-fpm.conf"
 
 - name: Create FPM checkconf executable
   become: yes
   become_user: "{{ php.fpm.user }}"
   template:
-    src: php5-fpm-checkconfig.j2
-    dest: "/home/{{ php.fpm.user }}/bin/php5-fpm-checkconf"
+    src: "{{ php.version }}-fpm-checkconfig.j2"
+    dest: "/home/{{ php.fpm.user }}/bin/{{ php.version }}-fpm-checkconf"
     mode: 0755
 
 - name: Create init.d script
@@ -57,7 +57,7 @@
 - name: Stop default FPM service
   become: yes
   service:
-    name: php5-fpm
+    name: "{{ php.version }}-fpm"
     state: stopped
   ignore_errors: yes
 
@@ -68,8 +68,8 @@
     state: absent
   register: php_fpm_remove
   with_items:
-    - /etc/init.d/php5-fpm
-    - /etc/init/php5-fpm.conf
+    - "/etc/init.d/{{ php.version }}-fpm"
+    - "/etc/init/{{ php.version }}-fpm.conf"
 
 - name: Create fpm status nxinx include
   become: yes

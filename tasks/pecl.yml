@@ -3,7 +3,7 @@
 - name: Install PHP DEV packages
   become: yes
   apt:
-    name: php5-dev
+    name: "{{ php.version }}-dev"
 
 - name: Install PECL modules
   become: yes

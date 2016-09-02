@@ -2,20 +2,29 @@
 
 php:
   # List of extra PHP packages to install
+  version: php7.0
   extras: []
   pecl: []
+  compiled: []
   modules:
-    - php5-curl
-    - php5-intl
-    - php5-mcrypt
-    - php5-mysql
-    - php5-pgsql
-    - php5-sqlite
+    - php7.0-curl
+    - php7.0-intl
+    - php7.0-mcrypt
+    - php7.0-mysql
+    - php7.0-pgsql
+    # E: Unable to locate package php7.0-mssql
+    # - php7.0-mssql
+    - php7.0-sqlite3
+    # removed due to doctrine trying to use memcache or redis by default to cache
+    - php-redis
+    - php-memcache
   paths:
-    etc: /etc/php5
+    etc: /etc/php7.0
+    fpm_pool: /etc/php7.0/fpm/pool.d
 
   # In order to configure custom FPM process, please check README
   fpm:
+    bin: php-fpm7.0
     port: 9000
     max_children: 100
     start_servers: 2

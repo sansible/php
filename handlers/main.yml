@@ -3,24 +3,24 @@
 
 - name: restart php-fpm
   service:
-    name: php5-fpm
+    name: "{{ php.fpm.bin }}"
     state: restarted
-  sudo: yes
+  become: yes
 
 - name: stop php-fpm
   service:
-    name: php5-fpm
+    name: "{{ php.fpm.bin }}"
     state: stopped
-  sudo: yes
+  become: yes
 
 - name: start php-fpm
   service:
-    name: php5-fpm
+    name: "{{ php.fpm.bin }}"
     state: started
-  sudo: yes
+  become: yes
 
 - name: reload php-fpm
   service:
-    name: php5-fpm
+    name: "{{ php.fpm.bin }}"
     state: reloaded
-  sudo: yes
+  become: yes

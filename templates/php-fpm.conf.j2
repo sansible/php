@@ -1,16 +1,15 @@
-##
-# {{ ansible_managed }}
-#
-
+;
+; {{ ansible_managed }}
+;
 [global]
-pid = /home/{{ php.fpm.user }}/run/php5-fpm.pid
-error_log = /home/{{ php.fpm.user }}/log/php5-fpm.log
+pid = /home/{{ php.fpm.user }}/run/{{ php.version }}-fpm.pid
+error_log = /home/{{ php.fpm.user }}/log/php-fpm.log
 log_level = notice
 
 [{{ php.fpm.user }}]
 user = {{ php.fpm.user }}
 group = {{ php.fpm.group }}
-listen = /home/{{ php.fpm.user }}/run/php5-fpm.sock
+listen = /home/{{ php.fpm.user }}/run/{{ php.version }}-fpm.sock
 listen.mode = 0666
 listen.allowed_clients = 127.0.0.1
 chroot = {{ php.fpm.chroot }}/

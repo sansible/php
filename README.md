@@ -1,7 +1,7 @@
 # PHP
 
-Master: ![Build Status](https://travis-ci.org/ansible-city/php.svg?branch=master)  
-Develop: ![Build Status](https://travis-ci.org/ansible-city/php.svg?branch=develop)
+Master: ![Build Status](https://travis-ci.org/sansible/php.svg?branch=master)  
+Develop: ![Build Status](https://travis-ci.org/sansible/php.svg?branch=develop)
 
 * [ansible.cfg](#ansible-cfg)
 * [Dependencies](#dependencies)
@@ -68,7 +68,7 @@ To simply add PHP to your box.
         - build
 
   roles:
-    - ansible-city.php
+    - sansible.php
 ~~~
 
 If you want to install some extra PHP packages, simply add it to `php.extras` list.
@@ -87,7 +87,7 @@ If you want to install some extra PHP packages, simply add it to `php.extras` li
         - build
 
   roles:
-    - name: ansible-city.php
+    - name: sansible.php
       php:
         extras:
           - php5-xdebug
@@ -109,7 +109,7 @@ If you want to install PHP with a custom FPM worker.
         - build
 
   roles:
-    - name: ansible-city.php
+    - name: sansible.php
       php:
         fpm:
           description: my awesome application

@@ -16,7 +16,7 @@ stop on runlevel [016]
 #
 # reload signal USR2
 
-pre-start exec /home/{{ php.fpm.user }}/bin/php5-fpm-checkconf
+pre-start exec /home/{{ php.fpm.user }}/bin/{{ php.version }}-fpm-checkconf
 
 respawn
-exec sudo -u {{ php.fpm.user }} /usr/sbin/php5-fpm --nodaemonize --fpm-config /home/{{ php.fpm.user }}/etc/php-fpm.conf -c /home/{{ php.fpm.user }}/etc/php.ini
+exec sudo -u {{ php.fpm.user }} /usr/sbin/{{ php.fpm.bin }} --nodaemonize --fpm-config /home/{{ php.fpm.user }}/etc/php-fpm.conf -c /home/{{ php.fpm.user }}/etc/php.ini
