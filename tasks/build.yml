@@ -25,7 +25,7 @@
     name: "{{ item }}"
   tags:
     - provision
-  with_items: php.modules
+  with_items: "{{ php.modules }}"
 
 - name: Install extra PHP packages
   become: yes
@@ -33,12 +33,12 @@
     name: "{{ item }}"
   tags:
     - provision
-  with_items: php.extras
+  with_items: "{{ php.extras }}"
 
 - name: Install custom FPM service
   include: fpm.yml
-  when: php.fpm.user is defined
+  when: "{{ php.fpm.user }} is defined"
 
 - name: Install PECL modules
   include: pecl.yml
-  when: php.pecl
+  when: "{{ php.pecl }}"
