@@ -37,7 +37,7 @@
 
 - name: Install custom FPM service
   include: fpm.yml
-  when: "{{ php.fpm.user }} is defined"
+  when: php.fpm.user is defined
 
 - name: Install PECL modules
   include: pecl.yml
