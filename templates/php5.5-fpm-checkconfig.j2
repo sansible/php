@@ -1,0 +1,14 @@
+#!/bin/sh
+
+##
+# {{ ansible_managed }}
+#
+
+set -e
+errors=$(/usr/sbin/php-fpm5.5 --fpm-config /home/{{ php.fpm.user }}/etc/php-fpm.conf -t 2>&1 | grep "\[ERROR\]" || true);
+if [ -n "$errors" ]; then
+	echo "Please fix your configuration file..."
+	echo $errors
+	exit 1
+fi
+exit 0
