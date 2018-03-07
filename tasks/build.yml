@@ -11,8 +11,6 @@
   apt:
     update_cache: yes
     name: "{{ item }}"
-  tags:
-    - provision
   with_items:
     - "{{ php.version }}"
     - "{{ php.version }}-common"
@@ -23,16 +21,12 @@
   become: yes
   apt:
     name: "{{ item }}"
-  tags:
-    - provision
   with_items: "{{ php.modules }}"
 
 - name: Install extra PHP packages
   become: yes
   apt:
     name: "{{ item }}"
-  tags:
-    - provision
   with_items: "{{ php.extras }}"
 
 - name: Install custom FPM service
