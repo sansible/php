@@ -14,6 +14,10 @@ listen.mode = 0666
 listen.allowed_clients = 127.0.0.1
 chroot = {{ php.fpm.chroot }}/
 
+{% if php.fpm.rlimit %}
+rlimit_files = {{ php.fpm.rlimit }}
+{% endif %}
+
 pm = dynamic
 pm.max_children = {{ php.fpm.max_children }}
 pm.start_servers = {{ php.fpm.start_servers }}

@@ -18,6 +18,24 @@
     - run
     - bin
 
+- name: Raise nofile limit for FPM user
+  become: yes
+  pam_limits:
+    domain: "{{ php.fpm.user }}"
+    limit_type: "-"
+    limit_item: nofile
+    value: "{{ php.fpm.rlimit }}"
+  when: php.fpm.rlimit
+
+- name: Configure pam for nofile limit raise
+  become: yes
+  lineinfile:
+    dest: "/etc/pam.d/{{ item }}"
+    line: "session required pam_limits.so"
+  with_items:
+    - common-session
+    - common-session-noninteractive
+
 - name: Create PHP ini for FPM
   become: yes
   become_user: "{{ php.fpm.user }}"
@@ -61,7 +79,7 @@
     state: stopped
   ignore_errors: yes
 
-- name: Remove default FPM service
+- name: Remove default FPM service and pool
   become: yes
   file:
     name: "{{ item }}"
@@ -70,6 +88,7 @@
   with_items:
     - "/etc/init.d/{{ php.version }}-fpm"
     - "/etc/init/{{ php.version }}-fpm.conf"
+    - "/etc/php/{{ php.version | replace('php', '') }}/fpm/pool.d/www.conf"
 
 - name: Create fpm status nxinx include
   become: yes
