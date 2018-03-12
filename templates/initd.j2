@@ -26,6 +26,16 @@ PIDFILE=/home/{{ php.fpm.user }}/run/{{ php.version }}-fpm.pid
 TIMEOUT=30
 SCRIPTNAME=/etc/init.d/$NAME
 
+{% if php.fpm.rlimit %}
+# Maximum number of open files
+MAX_OPEN_FILES={{ php.fpm.rlimit }}
+{% endif %}
+
+if [ `id -u` -ne 0 ]; then
+	echo "You need root privileges to run this script"
+	exit 1
+fi
+
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
 
@@ -58,6 +68,9 @@ do_check()
 #
 do_start()
 {
+	if [ -n "$MAX_OPEN_FILES" ]; then
+		ulimit -n $MAX_OPEN_FILES
+	fi
 	# Return
 	#   0 if daemon has been started
 	#   1 if daemon was already running
