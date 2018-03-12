@@ -27,15 +27,6 @@
     value: "{{ php.fpm.rlimit }}"
   when: php.fpm.rlimit
 
-- name: Configure pam for nofile limit raise
-  become: yes
-  lineinfile:
-    dest: "/etc/pam.d/{{ item }}"
-    line: "session required pam_limits.so"
-  with_items:
-    - common-session
-    - common-session-noninteractive
-
 - name: Create PHP ini for FPM
   become: yes
   become_user: "{{ php.fpm.user }}"
