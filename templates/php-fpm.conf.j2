@@ -2,33 +2,33 @@
 ; {{ ansible_managed }}
 ;
 [global]
-pid = /home/{{ php.fpm.user }}/run/{{ php.version }}-fpm.pid
-error_log = /home/{{ php.fpm.user }}/log/php-fpm.log
+pid = /home/{{ sansible_php_fpm_user }}/run/{{ sansible_php_version }}-fpm.pid
+error_log = /home/{{ sansible_php_fpm_user }}/log/php-fpm.log
 log_level = notice
 
-[{{ php.fpm.user }}]
-user = {{ php.fpm.user }}
-group = {{ php.fpm.group }}
-listen = /home/{{ php.fpm.user }}/run/{{ php.version }}-fpm.sock
+[{{ sansible_php_fpm_user }}]
+user = {{ sansible_php_fpm_user }}
+group = {{ sansible_php_fpm_group }}
+listen = /home/{{ sansible_php_fpm_user }}/run/{{ sansible_php_version }}-fpm.sock
 listen.mode = 0666
 listen.allowed_clients = 127.0.0.1
-chroot = {{ php.fpm.chroot }}/
+chroot = {{ sansible_php_fpm_chroot }}/
 
-{% if php.fpm.rlimit %}
-rlimit_files = {{ php.fpm.rlimit }}
+{% if sansible_php_fpm_rlimit %}
+rlimit_files = {{ sansible_php_fpm_rlimit }}
 {% endif %}
 
 pm = dynamic
-pm.max_children = {{ php.fpm.max_children }}
-pm.start_servers = {{ php.fpm.start_servers }}
-pm.min_spare_servers = {{ php.fpm.min_spare_servers }}
-pm.max_spare_servers = {{ php.fpm.max_spare_servers }}
-pm.max_requests = {{ php.fpm.max_requests }}
-pm.status_path = {{ php.fpm.status_path }}
+pm.max_children = {{ sansible_php_fpm_max_children }}
+pm.start_servers = {{ sansible_php_fpm_start_servers }}
+pm.min_spare_servers = {{ sansible_php_fpm_min_spare_servers }}
+pm.max_spare_servers = {{ sansible_php_fpm_max_spare_servers }}
+pm.max_requests = {{ sansible_php_fpm_max_requests }}
+pm.status_path = {{ sansible_php_fpm_status_path }}
 
 catch_workers_output = no
 
-env[HOME] = /home/{{ php.fpm.user }}/
-env[TMP] = /home/{{ php.fpm.user }}/tmp
-env[TMPDIR] = /home/{{ php.fpm.user }}/tmp
-env[TEMP] = /home/{{ php.fpm.user }}/tmp
+env[HOME] = /home/{{ sansible_php_fpm_user }}/
+env[TMP] = /home/{{ sansible_php_fpm_user }}/tmp
+env[TMPDIR] = /home/{{ sansible_php_fpm_user }}/tmp
+env[TEMP] = /home/{{ sansible_php_fpm_user }}/tmp

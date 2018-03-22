@@ -2,12 +2,12 @@
 # {{ ansible_managed }}
 #
 
-location = {{ php.fpm.status_path }} {
-	include includes/{{ php.fpm.user }}_fastcgi_params;
+location = {{ sansible_php_fpm_status_path }} {
+	include includes/{{ sansible_php_fpm_user }}_fastcgi_params;
 
 	access_log off;
 	allow 127.0.0.1;
 	deny all;
 
-	fastcgi_pass unix:/home/{{ php.fpm.user }}/run/{{ php.version }}-fpm.sock;
+	fastcgi_pass unix:/home/{{ sansible_php_fpm_user }}/run/{{ sansible_php_version }}-fpm.sock;
 }

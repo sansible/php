@@ -4,7 +4,6 @@
   become: yes
   apt_repository:
     repo: ppa:ondrej/php
-  when: ((php.version == "php5.5") or (php.version == "php5.6") or (php.version == "php7.0"))
 
 - name: Install PHP
   become: yes
@@ -12,27 +11,27 @@
     update_cache: yes
     name: "{{ item }}"
   with_items:
-    - "{{ php.version }}"
-    - "{{ php.version }}-common"
-    - "{{ php.version }}-fpm"
-    - "{{ php.version }}-cli"
+    - "{{ sansible_php_version }}"
+    - "{{ sansible_php_version }}-common"
+    - "{{ sansible_php_version }}-fpm"
+    - "{{ sansible_php_version }}-cli"
 
 - name: Install base PHP modules
   become: yes
   apt:
     name: "{{ item }}"
-  with_items: "{{ php.modules }}"
+  with_items: "{{ sansible_php_modules }}"
 
 - name: Install extra PHP packages
   become: yes
   apt:
     name: "{{ item }}"
-  with_items: "{{ php.extras }}"
+  with_items: "{{ sansible_php_extras }}"
 
 - name: Install custom FPM service
   include: fpm.yml
-  when: php.fpm.user is defined
+  when: sansible_php_fpm_user | length
 
 - name: Install PECL modules
   include: pecl.yml
-  when: "{{ php.pecl }}"
+  when: "{{ sansible_php_pecl }}"

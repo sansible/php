@@ -1,15 +1,22 @@
 ---
 
+- name: Assert Required Variables
+  assert:
+    that:
+      - sansible_php_fpm_chroot | length
+      - sansible_php_fpm_description | length
+      - sansible_php_fpm_group | length
+
 - name: Ensure FPM user
   become: yes
   user:
-    name: "{{ php.fpm.user }}"
+    name: "{{ sansible_php_fpm_user }}"
 
 - name: Ensure PHP FPM root folders exist
   become: yes
-  become_user: "{{ php.fpm.user }}"
+  become_user: "{{ sansible_php_fpm_user }}"
   file:
-    name: "/home/{{ php.fpm.user }}/{{ item }}"
+    name: "/home/{{ sansible_php_fpm_user }}/{{ item }}"
     state: directory
   with_items:
     - etc
@@ -21,52 +28,45 @@
 - name: Raise nofile limit for FPM user
   become: yes
   pam_limits:
-    domain: "{{ php.fpm.user }}"
+    domain: "{{ sansible_php_fpm_user }}"
     limit_type: "-"
     limit_item: nofile
-    value: "{{ php.fpm.rlimit }}"
-  when: php.fpm.rlimit
+    value: "{{ sansible_php_fpm_rlimit }}"
+  when: sansible_php_fpm_rlimit
 
 - name: Create PHP ini for FPM
   become: yes
-  become_user: "{{ php.fpm.user }}"
+  become_user: "{{ sansible_php_fpm_user }}"
   template:
     src: php.ini.j2
-    dest: "/home/{{ php.fpm.user }}/etc/php.ini"
+    dest: "/home/{{ sansible_php_fpm_user }}/etc/php.ini"
 
 - name: Create PHP FPM Config
   become: yes
-  become_user: "{{ php.fpm.user }}"
+  become_user: "{{ sansible_php_fpm_user }}"
   template:
     src: php-fpm.conf.j2
-    dest: "/home/{{ php.fpm.user }}/etc/php-fpm.conf"
+    dest: "/home/{{ sansible_php_fpm_user }}/etc/php-fpm.conf"
 
 - name: Create FPM checkconf executable
   become: yes
-  become_user: "{{ php.fpm.user }}"
+  become_user: "{{ sansible_php_fpm_user }}"
   template:
-    src: "{{ php.version }}-fpm-checkconfig.j2"
-    dest: "/home/{{ php.fpm.user }}/bin/{{ php.version }}-fpm-checkconf"
+    src: "{{ sansible_php_version }}-fpm-checkconfig.j2"
+    dest: "/home/{{ sansible_php_fpm_user }}/bin/{{ sansible_php_version }}-fpm-checkconf"
     mode: 0755
 
 - name: Create init.d script
   become: yes
   template:
     src: initd.j2
-    dest: "/etc/init.d/{{ php.fpm.user }}"
-    mode: 0755
-
-- name: Create init.d script
-  become: yes
-  template:
-    src: init.j2
-    dest: "/etc/init/{{ php.fpm.user }}"
+    dest: "/etc/init.d/{{ sansible_php_fpm_user }}"
     mode: 0755
 
 - name: Stop default FPM service
   become: yes
   service:
-    name: "{{ php.version }}-fpm"
+    name: "{{ sansible_php_version }}-fpm"
     state: stopped
   ignore_errors: yes
 
@@ -77,13 +77,13 @@
     state: absent
   register: php_fpm_remove
   with_items:
-    - "/etc/init.d/{{ php.version }}-fpm"
-    - "/etc/init/{{ php.version }}-fpm.conf"
-    - "/etc/php/{{ php.version | replace('php', '') }}/fpm/pool.d/www.conf"
+    - "/etc/init.d/{{ sansible_php_version }}-fpm"
+    - "/etc/init/{{ sansible_php_version }}-fpm.conf"
+    - "/etc/php/{{ sansible_php_version | replace('php', '') }}/fpm/pool.d/www.conf"
 
 - name: Create fpm status nxinx include
   become: yes
   template:
     src: fpm_status.j2
-    dest: "/etc/nginx/includes/{{ php.fpm.user }}_fpm_status"
-  when: php.fpm.nginx_status
+    dest: "/etc/nginx/includes/{{ sansible_php_fpm_user }}_fpm_status"
+  when: sansible_php_fpm_nginx_status

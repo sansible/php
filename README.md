@@ -18,26 +18,9 @@ This comes with some limitations:
 * You have to provide control handlers for the user specific FPM service.
 
 
-
-
-## ansible.cfg
-
-This role is designed to work with merge "hash_behaviour". Make sure your
-ansible.cfg contains these settings
-
-```INI
-[defaults]
-hash_behaviour = merge
-```
-
-
-
-
 ## Dependencies
 
 No dependencies
-
-
 
 
 ## Tags
@@ -47,6 +30,31 @@ This role uses two tags: **build** and **configure**
 * `build` - Installs PHP.
 * `configure` - (re-)Configures PHP and FPM.
 
+
+## Arguments
+
+Argument | Default | Description
+----------|---------|------------
+sansible_php_version | php7.0 | The PHP version to be installed
+sansible_php_extras | | Extra modules to be installed
+sansible_php_pecl | | Extensions to be installed
+sansible_php_modules | [php7.0-curl] | Default modules to be installed
+sansible_php_path_etc | /etc/php7.0/ | PHP /etc/ path
+sansible_php_path_fpm_pool | /etc/php7.0/fpm/pool.d/ | FPM pool path
+sansible_php_fpm_bin | php7.0-fpm | FPM binary name
+sansible_php_fpm_port | 9000 | FPM port
+sansible_php_fpm_max_children | 100 | Max FPM children
+sansible_php_fpm_start_servers | 2 | FPM servers to start with
+sansible_php_fpm_min_spare_servers | 2 | FPM min spare servers
+sansible_php_fpm_max_spare_servers | 10 | FPM max spare servers
+sansible_php_fpm_max_requests | 4000 | FPM max requests
+sansible_php_fpm_status_path | /status/ | PHP status path
+sansible_php_fpm_nginx_status | yes | Create fpm status nginx include
+sansible_php_fpm_rlimit | | Linux memory limit
+sansible_php_fpm_description | | Description of the server
+sansible_php_fpm_user | | PHP user
+sansible_php_fpm_group | | PHP group
+sansible_php_fpm_chroot | | PHP chroot
 
 
 
@@ -71,7 +79,7 @@ To simply add PHP to your box.
     - sansible.php
 ~~~
 
-If you want to install some extra PHP packages, simply add it to `php.extras` list.
+If you want to install some extra PHP packages, simply add it to `sansible_php_extras` list.
 
 ~~~YML
 - name: My Awesome Playbook
@@ -88,9 +96,8 @@ If you want to install some extra PHP packages, simply add it to `php.extras` li
 
   roles:
     - name: sansible.php
-      php:
-        extras:
-          - php5-xdebug
+      sansible_php_extras:
+        - php5-xdebug
 ~~~
 
 If you want to install PHP with a custom FPM worker.
@@ -110,10 +117,8 @@ If you want to install PHP with a custom FPM worker.
 
   roles:
     - name: sansible.php
-      php:
-        fpm:
-          description: my awesome application
-          chroot: /home/my_awesome_application/code/public
-          group: awesome_application
-          user: awesome_application
+      sansible_php_fpm_description: my awesome application
+      sansible_php_fpm_chroot: /home/my_awesome_application/code/public
+      sansible_php_fpm_group: awesome_application
+      sansible_php_fpm_user: awesome_application
 ~~~

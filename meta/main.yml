@@ -1,16 +1,17 @@
 ---
 
 allow_duplicates: yes
-dependencies: [ ]
+dependencies: []
 
 galaxy_info:
-  author: Wojtek Oledzki
   description: PHP and FPM instalation
   license: MIT
-  min_ansible_version: 2.0
+  min_ansible_version: 2.2
   platforms:
     - name: Ubuntu
       versions:
-        - all
+        - trusty
+        - xenial
+        - bionic
   categories:
     - development

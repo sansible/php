@@ -1,41 +1,23 @@
 ---
 
-php:
-  # List of extra PHP packages to install
-  version: php7.0
-  extras: []
-  pecl: []
-  compiled: []
-  modules:
-    - php7.0-curl
-    - php7.0-intl
-    - php7.0-mcrypt
-    - php7.0-mysql
-    - php7.0-pgsql
-    # E: Unable to locate package php7.0-mssql
-    # - php7.0-mssql
-    - php7.0-sqlite3
-    # removed due to doctrine trying to use memcache or redis by default to cache
-    - php-redis
-    - php-memcache
-  paths:
-    etc: /etc/php7.0
-    fpm_pool: /etc/php7.0/fpm/pool.d
-
-  # In order to configure custom FPM process, please check README
-  fpm:
-    bin: php-fpm7.0
-    port: 9000
-    max_children: 100
-    start_servers: 2
-    min_spare_servers: 2
-    max_spare_servers: 10
-    max_requests: 4000
-    status_path: /status
-    # generates nginx include. Set to `no` if you're not using nginx.
-    nginx_status: yes
-    rlimit: ~
-    # THIS NEEDS TO BE DEFINED IN YOUR DEPENDENCY
-    # user: ...
-    # group: ...
-    # chroot: ...
+sansible_php_fpm_chroot: ""
+sansible_php_fpm_description: ""
+sansible_php_fpm_group: ""
+sansible_php_fpm_user: ""
+sansible_php_extras: []
+sansible_php_fpm_bin: "{{ sansible_php_version }}-fpm"
+sansible_php_fpm_max_children: 100
+sansible_php_fpm_max_requests: 4000
+sansible_php_fpm_max_spare_servers: 10
+sansible_php_fpm_min_spare_servers: 2
+sansible_php_fpm_nginx_status: yes
+sansible_php_fpm_port: 9000
+sansible_php_fpm_rlimit: ~
+sansible_php_fpm_start_servers: 2
+sansible_php_fpm_status_path: /status/
+sansible_php_modules:
+  - "{{ sansible_php_version }}-curl"
+sansible_php_path_etc: "/etc/{{ sansible_php_version }}/"
+sansible_php_path_fpm_pool: "/etc/{{ sansible_php_version }}/fpm/pool.d/"
+sansible_php_pecl: []
+sansible_php_version: php7.0
