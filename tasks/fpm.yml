@@ -3,9 +3,9 @@
 - name: Assert Required Variables
   assert:
     that:
-      - sansible_php_fpm_chroot | length
-      - sansible_php_fpm_description | length
-      - sansible_php_fpm_group | length
+      - sansible_php_fpm_chroot is not none
+      - sansible_php_fpm_description is not none
+      - sansible_php_fpm_group is not none
 
 - name: Ensure FPM user
   become: yes
@@ -32,7 +32,7 @@
     limit_type: "-"
     limit_item: nofile
     value: "{{ sansible_php_fpm_rlimit }}"
-  when: sansible_php_fpm_rlimit
+  when: sansible_php_fpm_rlimit is not none
 
 - name: Create PHP ini for FPM
   become: yes
@@ -86,4 +86,4 @@
   template:
     src: fpm_status.j2
     dest: "/etc/nginx/includes/{{ sansible_php_fpm_user }}_fpm_status"
-  when: sansible_php_fpm_nginx_status
+  when: sansible_php_fpm_nginx_status == true

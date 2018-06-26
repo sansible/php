@@ -9,6 +9,7 @@
   become: yes
   command: "pecl install {{ item }}"
   register: php_pecl_result
-  changed_when: "php_pecl_result.rc == 0"
-  failed_when: "not (('already installed' in php_pecl_result.stdout) or ('install ok:' in php_pecl_result.stdout))"
+  changed_when: php_pecl_result.rc == 0
+  failed_when: not php_pecl_result.stdout is search("already installed") or
+               not php_pecl_result.stdout is search("install ok:")
   with_items: "{{ sansible_php_pecl }}"

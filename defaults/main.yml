@@ -1,9 +1,9 @@
 ---
 
-sansible_php_fpm_chroot: ""
-sansible_php_fpm_description: ""
-sansible_php_fpm_group: ""
-sansible_php_fpm_user: ""
+sansible_php_fpm_chroot: ~
+sansible_php_fpm_description: ~
+sansible_php_fpm_group: ~
+sansible_php_fpm_user: ~
 sansible_php_extras: []
 sansible_php_fpm_bin: "{{ sansible_php_version }}-fpm"
 sansible_php_fpm_max_children: 100
