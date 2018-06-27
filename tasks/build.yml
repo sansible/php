@@ -30,8 +30,8 @@
 
 - name: Install custom FPM service
   include: fpm.yml
-  when: sansible_php_fpm_user | length
+  when: sansible_php_fpm_user is not none
 
 - name: Install PECL modules
   include: pecl.yml
-  when: "{{ sansible_php_pecl }}"
+  when: sansible_php_pecl != []
