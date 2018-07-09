@@ -7,9 +7,6 @@
 
 - name: Install PECL modules
   become: yes
-  command: "pecl install {{ item }}"
-  register: php_pecl_result
-  changed_when: php_pecl_result.rc == 0
-  failed_when: not php_pecl_result.stdout is search("already installed") or
-               not php_pecl_result.stdout is search("install ok:")
+  pear:
+    name: "pecl/{{ item }}"
   with_items: "{{ sansible_php_pecl }}"
