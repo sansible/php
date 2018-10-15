@@ -15,6 +15,7 @@ sansible_php_fpm_port: 9000
 sansible_php_fpm_rlimit: ~
 sansible_php_fpm_start_servers: 2
 sansible_php_fpm_status_path: /status/
+sansible_php_install_base_packages: yes
 sansible_php_modules:
   - "{{ sansible_php_version }}-curl"
 sansible_php_path_etc: "/etc/{{ sansible_php_version }}/"

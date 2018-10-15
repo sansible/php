@@ -1,6 +1,6 @@
 # PHP
 
-Master: ![Build Status](https://travis-ci.org/sansible/php.svg?branch=master)  
+Master: ![Build Status](https://travis-ci.org/sansible/php.svg?branch=master)
 Develop: ![Build Status](https://travis-ci.org/sansible/php.svg?branch=develop)
 
 * [ansible.cfg](#ansible-cfg)
@@ -122,3 +122,28 @@ If you want to install PHP with a custom FPM worker.
       sansible_php_fpm_group: awesome_application
       sansible_php_fpm_user: awesome_application
 ~~~
+
+If you want complete control over installed packages (ie. to preserve exact versions):
+
+```YAML
+- name: My Awesome Playbook
+  hosts: sandbox
+
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+      tags:
+        - build
+
+  roles:
+    - name: sansible.php
+      sansible_php_install_base_packages: no
+      sansible_php_modules:
+        - php7.0=7.0.32*
+        - php7.0-common=7.0.32*
+        - php7.0-fpm=7.0.32*
+        - php7.0-cli=7.0.32*
+```

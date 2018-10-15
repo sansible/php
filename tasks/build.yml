@@ -16,6 +16,7 @@
     - "{{ sansible_php_version }}-common"
     - "{{ sansible_php_version }}-fpm"
     - "{{ sansible_php_version }}-cli"
+  when: sansible_php_install_base_packages == true
 
 - name: Install base PHP modules
   become: yes
