@@ -1,34 +1,45 @@
 ---
 
-- name: Add PHP7 repo
+- name: Download PHP PGP key (works with Bionic behind a proxy)
+  become: yes
+  get_url:
+    dest: /usr/local/src/php.asc
+    mode: 0644
+    url: "https://{{ sansible_php_repo_keyserver }}/pks/lookup?op=get&search=0x{{ sansible_php_repo_key_id }}"
+
+- name: Ensures PHP PGP key is known
+  become: yes
+  apt_key:
+    file: /usr/local/src/php.asc
+    id: "{{ sansible_php_repo_key_id }}"
+    state: present
+
+- name: Add PHP APT repository
   become: yes
   apt_repository:
-    repo: ppa:ondrej/php
+    repo: "{{ sansible_php_repo }}"
+    update_cache: yes
 
 - name: Install PHP
   become: yes
   apt:
-    update_cache: yes
-    name: "{{ item }}"
-  with_items:
-    - apt-utils
-    - "{{ sansible_php_version }}"
-    - "{{ sansible_php_version }}-common"
-    - "{{ sansible_php_version }}-fpm"
-    - "{{ sansible_php_version }}-cli"
+    name:
+      - apt-utils
+      - "{{ sansible_php_version }}"
+      - "{{ sansible_php_version }}-common"
+      - "{{ sansible_php_version }}-fpm"
+      - "{{ sansible_php_version }}-cli"
   when: sansible_php_install_base_packages == true
 
 - name: Install base PHP modules
   become: yes
   apt:
-    name: "{{ item }}"
-  with_items: "{{ sansible_php_modules }}"
+    name: "{{ sansible_php_modules }}"
 
 - name: Install extra PHP packages
   become: yes
   apt:
-    name: "{{ item }}"
-  with_items: "{{ sansible_php_extras }}"
+    name: "{{ sansible_php_extras }}"
 
 - name: Install PECL modules
   include: pecl.yml
