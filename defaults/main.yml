@@ -1,11 +1,10 @@
 ---
 
+sansible_php_extras: []
+sansible_php_fpm_bin: "{{ sansible_php_version }}-fpm"
 sansible_php_fpm_chroot: ~
 sansible_php_fpm_description: ~
 sansible_php_fpm_group: ~
-sansible_php_fpm_user: ~
-sansible_php_extras: []
-sansible_php_fpm_bin: "{{ sansible_php_version }}-fpm"
 sansible_php_fpm_max_children: 100
 sansible_php_fpm_max_requests: 4000
 sansible_php_fpm_max_spare_servers: 10
@@ -15,10 +14,15 @@ sansible_php_fpm_port: 9000
 sansible_php_fpm_rlimit: ~
 sansible_php_fpm_start_servers: 2
 sansible_php_fpm_status_path: /status/
+sansible_php_fpm_user: ~
 sansible_php_install_base_packages: yes
 sansible_php_modules:
   - "{{ sansible_php_version }}-curl"
 sansible_php_path_etc: "/etc/{{ sansible_php_version }}/"
 sansible_php_path_fpm_pool: "/etc/{{ sansible_php_version }}/fpm/pool.d/"
 sansible_php_pecl: []
+sansible_php_repo: "deb http://ppa.launchpad.net/ondrej/php/ubuntu
+  {{ ansible_distribution_release }} main"
+sansible_php_repo_key_id: 4F4EA0AAE5267A6C
+sansible_php_repo_keyserver: keyserver.ubuntu.com
 sansible_php_version: php7.0

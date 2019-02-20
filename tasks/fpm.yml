@@ -52,7 +52,7 @@
   become: yes
   become_user: "{{ sansible_php_fpm_user }}"
   template:
-    src: "{{ sansible_php_version }}-fpm-checkconfig.j2"
+    src: php-fpm-checkconfig.j2
     dest: "/home/{{ sansible_php_fpm_user }}/bin/{{ sansible_php_version }}-fpm-checkconf"
     mode: 0755
 
@@ -63,12 +63,24 @@
     dest: "/etc/init.d/{{ sansible_php_fpm_user }}"
     mode: 0755
 
-- name: Stop default FPM service
+- name: Stop and disable default FPM SysV service
   become: yes
   service:
+    enabled: no
     name: "{{ sansible_php_version }}-fpm"
     state: stopped
   ignore_errors: yes
+  when: ansible_service_mgr != "systemd"
+
+- name: Stop and disable default FPM SystemD service
+  become: yes
+  service:
+    daemon_reload: yes
+    enabled: no
+    name: "{{ sansible_php_version }}-fpm.service"
+    state: stopped
+  ignore_errors: yes
+  when: ansible_service_mgr == "systemd"
 
 - name: Remove default FPM service and pool
   become: yes

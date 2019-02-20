@@ -15,4 +15,4 @@
       sansible_php_fpm_description: Molecule Test
       sansible_php_fpm_group: php
       sansible_php_fpm_user: php
-      sansible_php_version: php7.3
+      sansible_php_version: php7.0

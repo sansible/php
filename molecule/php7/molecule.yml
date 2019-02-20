@@ -4,16 +4,16 @@ driver:
   name: docker
 
 platforms:
-  - name: sansible_php-trusty
+  - name: sansible_php-7-trusty
     image: ubuntu:trusty
-  - name: sansible_php-xenial
+  - name: sansible_php-7-xenial
     image: solita/ubuntu-systemd:xenial
     command: /sbin/init
     capabilities:
       - SYS_ADMIN
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: sansible_php-bionic
+  - name: sansible_php-7-bionic
     image: solita/ubuntu-systemd:bionic
     command: /sbin/init
     capabilities:
@@ -23,9 +23,6 @@ platforms:
 
 provisioner:
   name: ansible
-  config_options:
-    defaults:
-      hash_behaviour: merge
   lint:
     name: ansible-lint
 
@@ -46,7 +43,7 @@ dependency:
     role-file: requirements.yml
 
 scenario:
-  name: default
+  name: php7
 
 verifier:
   name: testinfra
