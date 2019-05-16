@@ -24,5 +24,5 @@ sansible_php_pecl: []
 sansible_php_repo: "deb http://ppa.launchpad.net/ondrej/php/ubuntu
   {{ ansible_distribution_release }} main"
 sansible_php_repo_key_id: 4F4EA0AAE5267A6C
-sansible_php_repo_keyserver: keyserver.ubuntu.com
+sansible_php_repo_keyserver: http://eu.pool.sks-keyservers.net
 sansible_php_version: php7.0
