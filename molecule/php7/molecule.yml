@@ -4,8 +4,6 @@ driver:
   name: docker
 
 platforms:
-  - name: sansible_php-7-trusty
-    image: ubuntu:trusty
   - name: sansible_php-7-xenial
     image: solita/ubuntu-systemd:xenial
     command: /sbin/init
