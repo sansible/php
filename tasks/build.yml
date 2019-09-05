@@ -46,9 +46,9 @@
     name: "{{ sansible_php_extras }}"
 
 - name: Install PECL modules
-  include: pecl.yml
+  include: build/pecl.yml
   when: sansible_php_pecl != []
 
 - name: Install custom FPM service
-  include: fpm.yml
+  include: build/fpm.yml
   when: sansible_php_fpm_user is not none

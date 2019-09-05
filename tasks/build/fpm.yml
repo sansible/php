@@ -34,20 +34,6 @@
     value: "{{ sansible_php_fpm_rlimit }}"
   when: sansible_php_fpm_rlimit is not none
 
-- name: Create PHP ini for FPM
-  become: yes
-  become_user: "{{ sansible_php_fpm_user }}"
-  template:
-    src: php.ini.j2
-    dest: "/home/{{ sansible_php_fpm_user }}/etc/php.ini"
-
-- name: Create PHP FPM Config
-  become: yes
-  become_user: "{{ sansible_php_fpm_user }}"
-  template:
-    src: php-fpm.conf.j2
-    dest: "/home/{{ sansible_php_fpm_user }}/etc/php-fpm.conf"
-
 - name: Create FPM checkconf executable
   become: yes
   become_user: "{{ sansible_php_fpm_user }}"

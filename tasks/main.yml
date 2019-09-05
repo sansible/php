@@ -4,3 +4,8 @@
   include: build.yml
   tags:
     - build
+
+- name: Configure PHP
+  include: configure.yml
+  tags:
+    - configure

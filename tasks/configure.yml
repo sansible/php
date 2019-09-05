@@ -1,0 +1,17 @@
+---
+
+- name: Create PHP ini for FPM
+  become: yes
+  become_user: "{{ sansible_php_fpm_user }}"
+  template:
+    dest: "/home/{{ sansible_php_fpm_user }}/etc/php.ini"
+    src: php.ini.j2
+  when: sansible_php_fpm_user is not none
+
+- name: Create PHP FPM Config
+  become: yes
+  become_user: "{{ sansible_php_fpm_user }}"
+  template:
+    dest: "/home/{{ sansible_php_fpm_user }}/etc/php-fpm.conf"
+    src: php-fpm.conf.j2
+  when: sansible_php_fpm_user is not none
