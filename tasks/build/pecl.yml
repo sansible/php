@@ -3,7 +3,9 @@
 - name: Install PHP DEV packages
   become: yes
   apt:
-    name: "{{ sansible_php_version }}-dev"
+    name:
+      - "{{ sansible_php_version }}-dev"
+      - "{{ sansible_php_version }}-xml"
 
 - name: Install PECL modules
   become: yes
