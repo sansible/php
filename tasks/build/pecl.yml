@@ -7,6 +7,10 @@
       - "{{ sansible_php_version }}-dev"
       - "{{ sansible_php_version }}-xml"
 
+- name: Update PECL channel
+  become: yes
+  shell: pecl channel-update pecl.php.net
+
 - name: Install PECL modules
   become: yes
   pear:
