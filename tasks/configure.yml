@@ -4,6 +4,7 @@
   become: yes
   become_user: "{{ sansible_php_fpm_user }}"
   template:
+    mode: 0640
     dest: "/home/{{ sansible_php_fpm_user }}/etc/php.ini"
     src: php.ini.j2
   when: sansible_php_fpm_user is not none
@@ -12,6 +13,7 @@
   become: yes
   become_user: "{{ sansible_php_fpm_user }}"
   template:
+    mode: 0640
     dest: "/home/{{ sansible_php_fpm_user }}/etc/php-fpm.conf"
     src: php-fpm.conf.j2
   when: sansible_php_fpm_user is not none
