@@ -6,10 +6,6 @@
     dest: /usr/local/src/php.asc
     mode: 0644
     url: "{{ sansible_php_repo_keyserver }}/pks/lookup?op=get&search=0x{{ sansible_php_repo_key_id }}"
-  retries: 2
-  delay: 10
-  register: sansible_php_pgp_result
-  until: sansible_php_pgp_result is succeeded
 
 - name: Ensures PHP PGP key is known
   become: yes
@@ -33,7 +29,7 @@
       - "{{ sansible_php_version }}-common"
       - "{{ sansible_php_version }}-fpm"
       - "{{ sansible_php_version }}-cli"
-  when: sansible_php_install_base_packages == true
+  when: sansible_php_install_base_packages
 
 - name: Install base PHP modules
   become: yes

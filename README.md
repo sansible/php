@@ -34,6 +34,19 @@ This role uses one tag: **build**
 
 See [defaults/main.yml](defaults/main.yml)
 
+~
+
+## Testing
+
+### Test all scenarios
+
+`make test`
+Note: The test container/s will NOT be left running, so for troubleshooting you may want to specify the scenario as per option below
+
+### Test a single, specified scenario
+
+`SCENARIO=<your_scenario> make test`
+Note: The test container/s WILL be left running. They can be removed with `make destroy` or `make clean`.
 
 ## Examples
 
