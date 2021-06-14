@@ -16,6 +16,7 @@
   become: yes
   become_user: "{{ sansible_php_fpm_user }}"
   file:
+    mode: 0750
     name: "/home/{{ sansible_php_fpm_user }}/{{ item }}"
     state: directory
   with_items:
@@ -79,9 +80,10 @@
     - "/etc/init/{{ sansible_php_version }}-fpm.conf"
     - "/etc/php/{{ sansible_php_version | replace('php', '') }}/fpm/pool.d/www.conf"
 
-- name: Create fpm status nxinx include
+- name: Create fpm status nginx include
   become: yes
   template:
+    mode: 0644
     src: fpm_status.j2
     dest: "/etc/nginx/includes/{{ sansible_php_fpm_user }}_fpm_status"
-  when: sansible_php_fpm_nginx_status == true
+  when: sansible_php_fpm_nginx_status

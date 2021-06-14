@@ -7,6 +7,13 @@
       - "{{ sansible_php_version }}-dev"
       - "{{ sansible_php_version }}-xml"
 
+- name: Update PECL channel
+  become: yes
+  ansible.builtin.command:
+    cmd: pecl channel-update pecl.php.net
+  register: sansible_php_channel_update_output
+  changed_when: "'succeeded' in sansible_php_channel_update_output.stdout"
+
 - name: Install PECL modules
   become: yes
   pear:
