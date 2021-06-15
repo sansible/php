@@ -15,6 +15,18 @@
       apt:
         name:
           - apt-transport-https
+          - gpg
           - lsb-release
           - net-tools
+          - python3-setuptools
+          - unzip
         update_cache: yes
+
+    - name: Symlink pip3 for TestInfra
+      become: yes
+      file:
+        dest: /usr/bin/pip
+        force: yes
+        mode: 0751
+        src: /usr/bin/pip3
+        state: link

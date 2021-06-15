@@ -4,15 +4,15 @@ driver:
   name: docker
 
 platforms:
-  - name: sansible_php-xenial
-    image: solita/ubuntu-systemd:xenial
+  - name: sansible-php-focal
+    image: jrei/systemd-ubuntu:20.04
     command: /sbin/init
     capabilities:
       - SYS_ADMIN
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: sansible_php-bionic
-    image: solita/ubuntu-systemd:bionic
+  - name: sansible-php-bionic
+    image: jrei/systemd-ubuntu:18.04
     command: /sbin/init
     capabilities:
       - SYS_ADMIN
@@ -21,22 +21,12 @@ platforms:
 
 provisioner:
   name: ansible
-  config_options:
-    defaults:
-      hash_behaviour: merge
-  lint:
-    name: ansible-lint
 
-lint:
-  name: yamllint
-  options:
-    config-data:
-      extends: default
-      ignore: .venv_ansible*
-      rules:
-        line-length:
-          max: 159
-        truthy: disable
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8 molecule/
 
 dependency:
   name: galaxy
@@ -48,5 +38,3 @@ scenario:
 
 verifier:
   name: testinfra
-  lint:
-    name: flake8

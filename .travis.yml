@@ -1,12 +1,14 @@
 ---
 
 group: stable
-dist: xenial
-sudo: required
+dist: bionic
+
+os:
+  - linux
 
 language: python
 python:
-  - 2.7
+  - 3.6
 cache: pip
 
 branches:
@@ -15,16 +17,17 @@ branches:
     - master
 
 env:
-  - ANSIBLE_INSTALL_VERSION=2.5.15
-  - ANSIBLE_INSTALL_VERSION=2.6.16
-  - ANSIBLE_INSTALL_VERSION=2.7.10
-
+  matrix:
+    - ANSIBLE_INSTALL_VERSION=2.8.18
+    - ANSIBLE_INSTALL_VERSION=2.9.16
+  global:
+# yamllint disable-line rule:line-length
+    secure: "y3ucQwKsToJkMPbIgXYZdwJJ1PX0QdKzFCVcBWEoPnjrzLjDcWv4IqkkcFPTkAVQzVN/v2yxwc3UFTAnSN7aC7FzZHP6AjUYKzR0nBSv3hnexcseRx1e5ANpU0vwTw9aHTwr4LjfnL/2uybFp03FNqMoQvjAvEy/9MDC7FYz6bGhJM/t9fGPWqO8L1rEhVIciN7J6Tc5oG/g1QNPcMmps6lTG7Zi+EBvT3FNW9jlk8pC9Yal+b17YHGYFDUPb2ry5Fdj3/Z/5HSUnU1XThn6F3CFUu6CdtIyLVaLOTSgcQCmlFyGKki0Qf5N3AKhscxOso1JT9WPcJv7ll9uY2TSACgOL+9pB0Hb76dT3Tb2b+mn63OQOj8GTOElVJlLUZUQFNE2Med7POjtBifYcr2oXV+NHr3b+wZQNmx/D70v8tBEYyVCC3CEucohY8UmSCV0G/SlW5E7u174QejhSRdnMZUSp6OmkHCExBIv5xMv9hMPxpEKKc9Fg60fV+HgRL6o0e5LKjvHMntLZULzMMMXvPKRrK8HbPTYbB64oCOCdFa34a92qLP15MMxDn3adjvJvZIvk2cThiCBTNFrXV/ggP0/iBkiz4r5lgnhphqk2xBJqNMpYZZjLMFazRU52HxsRtesvcQj5i5jLceC0WSYynRGdV/8H14YYIZAXD3k/SU="
 services:
   - docker
 
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-ce
+  - echo "${DOCKER_PW}" | docker login -u "smartshopdocker" --password-stdin
 
 install:
   - make deps
